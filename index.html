@@ -1,9 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Golden | جولدن - Luxury Accessories</title>
+
+<!-- ============================================
+     SEO & META TAGS (تحسين محركات البحث)
+     ============================================ -->
+<title>Golden | جولدن - Luxury Accessories & Premium Jewelry | إكسسوارات ومجوهرات فاخرة</title>
+<meta name="description" content="تسوق أفضل الإكسسوارات الفاخرة، المجوهرات، الساعات، والهدايا القيمة من متجر جولدن. Shop luxury accessories, premium jewelry, watches and designer cases at Golden." />
+<meta name="keywords" content="إكسسوارات, مجوهرات, ساعات, هدايا فاخرة, اكسسوارات نسائية, خواتم, اساور, كفرات ايفون, luxury accessories, premium jewelry, bracelets, watches, designer cases, Golden store, متجر جولدن" />
+<meta name="author" content="Golden | جولدن" />
+<meta name="robots" content="index, follow" />
+
+<!-- Open Graph / Facebook / WhatsApp -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://yourwebsite.com/" />
+<meta property="og:title" content="Golden | جولدن - Luxury Accessories" />
+<meta property="og:description" content="وجهتك الأولى لأرقى الإكسسوارات والمجوهرات. Discover an exquisite collection of handcrafted accessories." />
+<meta property="og:image" content="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1200&auto=format&fit=crop" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://yourwebsite.com/" />
+<meta property="twitter:title" content="Golden | جولدن - Luxury Accessories" />
+<meta property="twitter:description" content="وجهتك الأولى لأرقى الإكسسوارات والمجوهرات. Discover an exquisite collection of handcrafted accessories." />
+<meta property="twitter:image" content="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1200&auto=format&fit=crop" />
+
+<!-- Structured Data (JSON-LD) for Google Search -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Store",
+  "name": "Golden | جولدن",
+  "image": "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1200&auto=format&fit=crop",
+  "description": "A luxury accessories house celebrating timeless beauty. متجر جولدن للإكسسوارات الفاخرة والمجوهرات والساعات.",
+  "url": "https://yourwebsite.com",
+  "telephone": "+96891234567",
+  "priceRange": "$$$",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Muscat",
+    "addressCountry": "OM"
+  }
+}
+</script>
 
 <!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -118,8 +159,8 @@
         with Golden <span class="ar">جولدن</span>
       </h1>
       <p class="hero-sub">
-        Discover an exquisite collection of handcrafted accessories, premium cases,
-        and limited-edition pieces — designed to shimmer with every move.
+        Discover an exquisite collection of handcrafted accessories, premium jewelry,
+        and limited-edition pieces. <span class="ar">اكتشف تشكيلة فاخرة من الإكسسوارات والمجوهرات المصممة بعناية.</span>
       </p>
       <div class="hero-cta">
         <button class="btn-primary" id="orderNowBtn">
@@ -165,7 +206,7 @@
   <div class="filter-container">
     <div class="search-box">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input type="text" id="globalSearch" placeholder="Search bracelets, rings, watches, cases..." />
+      <input type="text" id="globalSearch" placeholder="Search bracelets, rings, watches, accessories..." />
       <button id="clearSearch" style="display:none">×</button>
     </div>
     <div class="filter-controls">
@@ -198,7 +239,7 @@
   <div class="section-head">
     <span class="eyebrow center">Special Offers</span>
     <h2 class="section-title">Limited Time <span class="accent-text">Offers</span></h2>
-    <p class="section-sub">Handpicked pieces at irresistible prices — while stocks last.</p>
+    <p class="section-sub">Handpicked jewelry and accessories at irresistible prices — while stocks last.</p>
   </div>
   <div class="product-grid" id="offersGrid"></div>
 </section>
@@ -210,7 +251,7 @@
   <div class="section-head">
     <span class="eyebrow center">Our Collection</span>
     <h2 class="section-title">Premium <span class="accent-text">Accessories</span></h2>
-    <p class="section-sub">From delicate bracelets to statement rings — crafted for elegance.</p>
+    <p class="section-sub">From delicate bracelets to statement rings — إكسسوارات صنعت خصيصاً لتتألقي.</p>
   </div>
   <div class="product-grid" id="accessoriesGrid"></div>
 </section>
@@ -228,7 +269,7 @@
 </section>
 
 <!-- ============================================
-     ORDER TRACKING SECTION (Secured against IDOR)
+     ORDER TRACKING SECTION
      ============================================ -->
 <section class="section section-alt" id="tracking">
   <div class="section-head">
@@ -237,7 +278,6 @@
     <p class="section-sub">Enter your order details to view status securely.</p>
   </div>
   <div class="tracking-box">
-    <!-- 🔐 SECURITY FIX: Two-factor validation to secure tracking data -->
     <div class="tracking-search" style="display:flex; flex-direction:column; gap:12px; max-width:500px; margin:0 auto;">
       <input type="text" id="trackingInput" placeholder="Order ID (e.g. #G1001)" style="width:100%;" />
       <input type="email" id="trackingEmailInput" placeholder="Enter associated Email Address" style="width:100%; padding:14px 20px; border-radius:999px; border:1.5px solid var(--line); background:var(--cream); color:var(--ink); outline:none;" />
@@ -264,7 +304,7 @@
   <div class="footer-grid">
     <div>
       <div class="logo logo-footer"><span class="logo-mark">G</span><span class="logo-text">Golden | جولدن</span></div>
-      <p class="footer-about">A luxury accessories house celebrating timeless beauty and modern craftsmanship.</p>
+      <p class="footer-about">A luxury accessories house celebrating timeless beauty and modern craftsmanship.<br/><br/><span class="ar" style="opacity: 0.9;">وجهتك الأولى لأرقى الإكسسوارات والمجوهرات والهدايا القيمة.</span></p>
     </div>
     <div><h5>Shop</h5><a href="#offers">Offers</a><a href="#accessories">Accessories</a><a href="#cases">Cases</a><a href="#tracking">Track Order</a></div>
     <div><h5>Support</h5><a href="#">Contact Us</a><a href="#">Shipping</a><a href="#">Returns</a><a href="#">FAQ</a></div>
@@ -275,7 +315,7 @@
       </form>
     </div>
   </div>
-  <div class="footer-bottom">© 2026 Golden | جولدن. Crafted with ♡ All rights reserved.</div>
+  <div class="footer-bottom">© 2026 Golden | جولدن - Luxury Accessories. Crafted with ♡ All rights reserved.</div>
 </footer>
 
 <!-- ============================================
