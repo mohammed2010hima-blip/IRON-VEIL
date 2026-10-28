@@ -774,7 +774,8 @@ function resize() {
   camera.aspect = width / height;
   camera.fov = width < 600 ? 46 : 39;
   camera.updateProjectionMatrix(); renderer.setSize(width, height);
-  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, width < 760 ? 1.4 : 1.8));
+  const touchDevice = matchMedia('(pointer: coarse)').matches;
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, touchDevice ? 1.35 : width < 760 ? 1.4 : 1.8));
 }
 
 function animate() {
@@ -873,9 +874,18 @@ ui.fullscreen.addEventListener('click', async () => {
 document.addEventListener('fullscreenchange', () => requestAnimationFrame(resize));
 document.querySelectorAll('[data-key]').forEach((button) => {
   const key = button.dataset.key === 'space' ? ' ' : button.dataset.key;
-  const down = (event) => { event.preventDefault(); keys.add(key); if (key === 'j') requestAttack(fighters[0], 'punch'); if (key === 'u') requestAttack(fighters[0], 'combo'); if (key === 'k') requestAttack(fighters[0], 'kick'); if (key === 'i') requestAttack(fighters[0], 'heavy'); };
+  const attackForKey = { j: 'punch', u: 'combo', k: 'kick', i: 'heavy' };
+  const down = (event) => {
+    event.preventDefault();
+    if (event.pointerId !== undefined && button.setPointerCapture) button.setPointerCapture(event.pointerId);
+    keys.add(key);
+    if (attackForKey[key]) requestAttack(fighters[0], attackForKey[key]);
+  };
   const up = (event) => { event.preventDefault(); keys.delete(key); };
-  button.addEventListener('pointerdown', down); button.addEventListener('pointerup', up); button.addEventListener('pointercancel', up); button.addEventListener('pointerleave', up);
+  button.addEventListener('pointerdown', down);
+  button.addEventListener('pointerup', up);
+  button.addEventListener('pointercancel', up);
+  button.addEventListener('lostpointercapture', up);
 });
 
 window.addEventListener('resize', resize);
