@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#080b0d" />
+  <title>IRON VEIL — Last Shrine</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
+  </script>
+  <script type="module" src="game.js"></script>
+</head>
+<body>
+  <main id="game" aria-label="Iron Veil fighting game">
+    <div id="viewport"></div>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">IV</span><span><b>IRON VEIL</b><small>THE LAST SHRINE</small></span></div>
+      <div class="arena-label"><i></i> SUNLIT MOUNTAIN TEMPLE <span>SEASON 01</span></div>
+      <div class="topbar-actions">
+        <button id="fullscreen-toggle" class="icon-btn" aria-label="Toggle fullscreen" title="Fullscreen">⛶</button>
+        <button id="sound-toggle" class="icon-btn" aria-label="Toggle sound" title="Sound">♫ <span>SOUND ON</span></button>
+      </div>
+    </header>
+
+    <section class="fight-hud" id="fight-hud" aria-live="polite">
+      <div class="fighter-hud left-hud">
+        <div class="fighter-meta"><span class="side-tag">P1 · THE VANGUARD</span><strong id="p1-name">KAZE</strong><span class="wins" id="p1-wins" aria-label="Round wins"></span></div>
+        <div class="health-shell"><div id="p1-health" class="health-fill health-blue"></div><span class="health-glint"></span></div>
+        <div class="hud-sub"><span>VITALITY</span><span id="p1-hp-label">100 / 100</span></div>
+      </div>
+      <div class="round-center"><div class="round-kicker">ROUND <span id="round-number">01</span></div><div id="timer" class="timer">90</div><div id="round-state" class="round-state">FIGHT</div></div>
+      <div class="fighter-hud right-hud">
+        <div class="fighter-meta"><span class="side-tag" id="p2-side">CPU · THE SENTINEL</span><strong id="p2-name">RAIJIN</strong><span class="wins" id="p2-wins" aria-label="Round wins"></span></div>
+        <div class="health-shell"><div id="p2-health" class="health-fill health-red"></div><span class="health-glint"></span></div>
+        <div class="hud-sub"><span>VITALITY</span><span id="p2-hp-label">100 / 100</span></div>
+      </div>
+    </section>
+
+    <div id="combo" class="combo-toast"><b id="combo-number">2</b><span>HIT COMBO</span></div>
+    <div id="toast" class="toast"></div>
+    <div class="stage-caption"><span class="caption-line"></span><span>MOUNTAIN TEMPLE ARENA</span><span class="caption-dot">◆</span><span>HIGH PEAK SANCTUARY</span><span class="caption-line"></span></div>
+
+    <footer id="controls-hint" class="controls-hint">
+      <span><kbd>A / D</kbd> MOVE</span><span><kbd>W / SPACE</kbd> JUMP</span><span><kbd>J</kbd> PUNCH</span><span><kbd>K</kbd> KICK</span><span><kbd>U</kbd> COMBO</span><span><kbd>I</kbd> POWER</span><span><kbd>L</kbd> BLOCK</span>
+    </footer>
+
+    <div id="loading" class="overlay loading-overlay">
+      <div class="loader-lockup"><span class="loader-sigil">IV</span><span class="eyebrow">A NEW LEGEND AWAKENS</span><h1>IRON<br><em>VEIL</em></h1><p>PREPARING THE TEMPLE ARENA</p><div class="load-track"><span id="load-progress"></span></div><small id="load-status">LOADING ARENA ASSETS · 0%</small></div>
+    </div>
+
+    <section id="title-screen" class="overlay title-overlay hidden">
+      <div class="title-card"><div class="eyebrow"><span class="mini-line"></span> THE SUNLIT MOUNTAIN TEMPLE <span class="mini-line"></span></div><h1>IRON <em>VEIL</em></h1><p class="title-sub">THE LAST SHRINE</p><p class="intro-copy">Two warriors. One ancient oath.<br>Only one leaves the shrine.</p>
+        <div class="mode-picker"><button class="mode-option selected" data-mode="cpu"><span class="mode-icon">◉</span><span><b>ARCADE DUEL</b><small>Challenge the Sentinel</small></span><span class="mode-check">✓</span></button><button class="mode-option" data-mode="versus"><span class="mode-icon">⚔</span><span><b>LOCAL VERSUS</b><small>Two fighters · one keyboard</small></span><span class="mode-check">✓</span></button></div>
+        <button id="start-button" class="start-button"><span>ENTER THE ARENA</span><b>↗</b></button><div class="title-foot"><span>BEST OF THREE ROUNDS</span><span>·</span><span>KEYBOARD / TOUCH</span></div>
+      </div>
+    </section>
+
+    <section id="pause-screen" class="overlay pause-overlay hidden"><div class="pause-card"><span class="eyebrow">SUNLIGHT RETURNS</span><h2>PAUSED</h2><button id="resume-button" class="start-button"><span>RESUME FIGHT</span><b>↗</b></button><button id="restart-button" class="text-button">RESTART MATCH</button></div></section>
+    <section id="result-screen" class="overlay result-overlay hidden"><div class="result-card"><span class="eyebrow" id="result-kicker">THE SHRINE REMEMBERS</span><h2 id="result-title">VICTORY</h2><p id="result-subtitle">THE VANGUARD CLAIMS THE OATH</p><button id="rematch-button" class="start-button"><span>FIGHT AGAIN</span><b>↗</b></button><button id="menu-button" class="text-button">BACK TO MAIN MENU</button></div></section>
+
+    <div id="mobile-controls" class="mobile-controls" aria-label="Touch controls">
+      <div class="touch-pad"><div><button data-key="a" aria-label="Move left">◀</button><button data-key="d" aria-label="Move right">▶</button></div></div>
+      <div class="touch-actions"><button data-key="l" class="guard-touch">BLOCK</button><button data-key="i" class="heavy-touch">POWER</button><button data-key="j" class="strike-touch">PUNCH</button><button data-key="k" class="heavy-touch">KICK</button><button data-key="u" class="combo-touch">COMBO</button><button data-key="space" class="jump-touch">JUMP</button></div>
+    </div>
+    <div id="error-screen" class="overlay hidden"><div class="error-card"><span class="eyebrow">THE SHRINE IS SILENT</span><h2>ASSET LOAD FAILED</h2><p id="error-copy">Check that you are running the game from a local web server.</p></div></div>
+  </main>
+</body>
+</html>
